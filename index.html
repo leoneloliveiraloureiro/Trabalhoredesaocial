@@ -86,18 +86,26 @@
 
   <!-- Lógica principal -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-    // 🔥 Cole sua configuração Firebase aqui:
-    const firebaseConfig = {
-      apiKey: "AIzaSyCqtIahDDW_Dw5NYZ9AK524VbkxNg7vvhI",
-      authDomain: "https://leoneloliveiraloureiro.github.io/Trabalhoredesaocial/",
-      projectId: "kubo-aafcc",
-      storageBucket: "seuprojeto.appspot.com",
-      messagingSenderId: "968436349335",
-      appId: "1:000000000:web:abc123"
-    };
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCqtIahDDW_Dw5NYZ9AK524VbkxNg7vvhI",
+  authDomain: "kubo-aafcc.firebaseapp.com",
+  projectId: "kubo-aafcc",
+  storageBucket: "kubo-aafcc.firebasestorage.app",
+  messagingSenderId: "968436349335",
+  appId: "1:968436349335:web:078b66979ab4fc43f22cd2",
+  measurementId: "G-0K98ZYCYBG"
+};
+
+// Initialize Firebase
+const analytics = getAnalytics(app);
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
