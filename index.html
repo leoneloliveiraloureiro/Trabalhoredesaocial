@@ -1,254 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-    <title>Simulador de Hashing - Vida Digital</title>
-    <style>
-        :root {
-            --bg: #f2f2f2;
-            --card: #ffffff;
-            --muted: #666;
-        }
-
-        body {
-            font-family: Inter, Arial, sans-serif;
-            background: var(--bg);
-            color: #0b84ff;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-        }
-
-        /* Cabeçalho */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
-        }
-
-        .header img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            margin: 0;
-            color: #0b84ff;
-        }
-
-        /* Área dos containers lado a lado */
-        .main-content {
-            display: flex;
-            flex-wrap: wrap; /* permite quebrar linha se a tela for pequena */
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-            max-width: 1500px;
-        }
-
-        .container {
-            background: var(--card);
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-            width: 500px;
-            box-sizing: border-box;
-        }
-
-        h2, h3 { margin: 6px 0; }
-        label { font-size: 13px; color: var(--muted); }
-
-        input, button, textarea {
-            width: 100%;
-            padding: 10px 12px;
-            margin-top: 8px;
-            margin-bottom: 6px;
-            border-radius: 8px;
-            border: 1px solid #e6e6e6;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        .small { font-size: 13px; color: var(--muted); }
-        .row { display: flex; gap: 10px; }
-        .row > * { flex: 1; }
-
-        button {
-            cursor: pointer;
-            border: none;
-            background: #0b84ff;
-            color: white;
-            font-weight: 600;
-        }
-
-        #hashResult {
-            background: #fafafa;
-            padding: 10px;
-            border-radius: 8px;
-            word-wrap: break-word;
-            display: none;
-        }
-
-        #bancoDados {
-            background: #fbfbff;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-
-        th, td {
-            padding: 6px;
-            border-bottom: 1px solid #f0f0f0;
-            text-align: left;
-            word-break: break-word;
-        }
-
-        .muted { color: #888; font-size: 12px; }
-        .success { color: green; }
-        .error { color: red; }
-
-        /* Responsividade */
-        @media (max-width: 1000px) {
-            .main-content {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Simulador de Hashing - Vida Digital</title>
+  <style>
+    :root { --bg: #f2f2f2; --card: #ffffff; --muted: #666; }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: #0b84ff;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    .header { display: flex; align-items: center; justify-content: center; gap: 14px; }
+    .header img { width: 60px; height: 60px; object-fit: contain; }
+    .header h1 { font-size: 2rem; margin: 0; color: #0b84ff; }
+    .main-content {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+      width: 100%; max-width: 1500px;
+    }
+    .container {
+      background: var(--card); padding: 18px; border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06); width: 500px; box-sizing: border-box;
+    }
+    h2, h3 { margin: 6px 0; }
+    label { font-size: 13px; color: var(--muted); }
+    input, button {
+      width: 100%; padding: 10px 12px; margin-top: 8px; margin-bottom: 6px;
+      border-radius: 8px; border: 1px solid #e6e6e6; font-size: 14px;
+    }
+    button { cursor: pointer; border: none; background: #0b84ff; color: white; font-weight: 600; }
+    #hashResult { background: #fafafa; padding: 10px; border-radius: 8px; word-wrap: break-word; display: none; }
+    #bancoDados { background: #fbfbff; padding: 10px; border-radius: 8px; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 6px; border-bottom: 1px solid #f0f0f0; text-align: left; word-break: break-word; }
+    .muted { color: #888; font-size: 12px; }
+    .success { color: green; }
+    .error { color: red; }
+    @media (max-width: 1000px) { .main-content { flex-direction: column; align-items: center; } }
+  </style>
 </head>
 <body>
 
-    <!-- Cabeçalho -->
-    <div class="header">
-        <img src="TESTE.png" alt="Logo Vida Digital">
-        <h1>Vida Digital</h1>
+  <!-- Cabeçalho -->
+  <div class="header">
+    <img src="TESTE.png" alt="Logo Vida Digital">
+    <h1>Vida Digital</h1>
+  </div>
+
+  <!-- Containers -->
+  <div class="main-content">
+    <div class="container">
+      <h2>Criar Conta</h2>
+      <label for="usuario">Nome de usuário</label>
+      <input type="text" id="usuario" placeholder="Ex: joao">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" placeholder="Sua senha (não será armazenada)">
+      <button id="btnCriar">Gerar Hash e Salvar</button>
+      <div id="hashResult" aria-live="polite"></div>
+      <p class="small">
+        Ao criar, apenas o <strong>hash</strong> da senha é salvo no banco — a senha em texto puro nunca é armazenada.
+      </p>
     </div>
 
-    <!-- Containers lado a lado -->
-    <div class="main-content">
-
-        <div class="container">
-            <h2>Criar Conta</h2>
-            <label for="usuario">Nome de usuário</label>
-            <input type="text" id="usuario" placeholder="Ex: joao">
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" placeholder="Sua senha (não será armazenada)">
-            <button id="btnCriar">Gerar Hash e Salvar</button>
-            <div id="hashResult" aria-live="polite"></div>
-            <p class="small">
-                Ao criar, apenas o <strong>hash</strong> da senha é salvo no banco simulado — a senha em texto puro nunca é armazenada.
-            </p>
-        </div>
-
-        <div class="container">
-            <h2>Login</h2>
-            <label for="loginUser">Usuário</label>
-            <input type="text" id="loginUser" placeholder="Digite seu usuário">
-            <label for="loginPass">Senha</label>
-            <input type="password" id="loginPass" placeholder="Digite a senha para verificar">
-            <button id="btnLogin">Tentar Login</button>
-            <div id="loginMsg" class="muted"></div>
-        </div>
-
-        <div class="container">
-            <h3>Banco de Dados (Simulado)</h3>
-            <div id="bancoDados"><em>Nenhum usuário salvo ainda.</em></div>
-        </div>
-
+    <div class="container">
+      <h2>Login</h2>
+      <label for="loginUser">Usuário</label>
+      <input type="text" id="loginUser" placeholder="Digite seu usuário">
+      <label for="loginPass">Senha</label>
+      <input type="password" id="loginPass" placeholder="Digite a senha para verificar">
+      <button id="btnLogin">Tentar Login</button>
+      <div id="loginMsg" class="muted"></div>
     </div>
 
-    <script>
-        const db = [];
+    <div class="container">
+      <h3>Banco de Dados (Firestore)</h3>
+      <div id="bancoDados"><em>Carregando...</em></div>
+    </div>
+  </div>
 
-        async function sha256Hex(str){
-            const enc = new TextEncoder();
-            const data = enc.encode(str);
-            const buf = await crypto.subtle.digest('SHA-256', data);
-            const arr = Array.from(new Uint8Array(buf));
-            return arr.map(b => b.toString(16).padStart(2,'0')).join('');
-        }
+  <!-- Lógica principal -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-        function renderBanco(){
-            const cont = document.getElementById('bancoDados');
-            if(db.length === 0){
-                cont.innerHTML = '<em>Nenhum usuário salvo ainda.</em>';
-                return;
-            }
-            let html = '<table><thead><tr><th>Usuário</th><th>Hash (armazenado)</th></tr></thead><tbody>';
-            for(const row of db){
-                html += `<tr><td>${escapeHtml(row.usuario)}</td><td><code title="hash">${row.hash}</code></td></tr>`;
-            }
-            html += '</tbody></table>';
-            cont.innerHTML = html;
-        }
+    // 🔥 Cole sua configuração Firebase aqui:
+    const firebaseConfig = {
+      apiKey: "SUA_CHAVE",
+      authDomain: "seuprojeto.firebaseapp.com",
+      projectId: "seuprojeto",
+      storageBucket: "seuprojeto.appspot.com",
+      messagingSenderId: "000000000",
+      appId: "1:000000000:web:abc123"
+    };
 
-        function escapeHtml(text){
-            return text.replace(/[&<>"']/g, c => ({
-                '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"
-            }[c]));
-        }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const colUsuarios = collection(db, "usuarios");
 
-        document.getElementById('btnCriar').addEventListener('click', async ()=>{
-            const u = document.getElementById('usuario').value.trim();
-            const s = document.getElementById('senha').value;
-            const resDiv = document.getElementById('hashResult');
-            resDiv.style.display = 'none';
-            if(!u || !s){
-                resDiv.style.display = 'block';
-                resDiv.textContent = 'Preencha usuário e senha.';
-                resDiv.className = 'error';
-                return;
-            }
+    // Utilitários
+    async function sha256Hex(str) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+    }
 
-            if(db.some(x => x.usuario.toLowerCase() === u.toLowerCase())){
-                resDiv.style.display = 'block';
-                resDiv.textContent = 'Nome de usuário já existe. Escolha outro.';
-                resDiv.className = 'error';
-                return;
-            }
+    function escapeHtml(t) {
+      return t.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
 
-            const hash = await sha256Hex(s);
-            db.push({usuario: u, hash});
-            resDiv.style.display = 'block';
-            resDiv.className = '';
-            resDiv.innerHTML = `<strong>Hash gerado (SHA-256):</strong><br><code>${hash}</code>`;
-            renderBanco();
-            document.getElementById('senha').value = '';
-        });
+    async function renderBanco() {
+      const cont = document.getElementById("bancoDados");
+      const snap = await getDocs(colUsuarios);
+      if (snap.empty) {
+        cont.innerHTML = "<em>Nenhum usuário salvo ainda.</em>";
+        return;
+      }
+      let html = "<table><thead><tr><th>Usuário</th><th>Hash</th></tr></thead><tbody>";
+      snap.forEach(doc => {
+        const { usuario, hash } = doc.data();
+        html += `<tr><td>${escapeHtml(usuario)}</td><td><code>${hash}</code></td></tr>`;
+      });
+      cont.innerHTML = html + "</tbody></table>";
+    }
 
-        document.getElementById('btnLogin').addEventListener('click', async ()=>{
-            const u = document.getElementById('loginUser').value.trim();
-            const s = document.getElementById('loginPass').value;
-            const msg = document.getElementById('loginMsg');
-            msg.textContent = '';
-            if(!u || !s){ msg.textContent = 'Preencha usuário e senha.'; return; }
+    // Criar usuário
+    document.getElementById("btnCriar").addEventListener("click", async () => {
+      const u = document.getElementById("usuario").value.trim();
+      const s = document.getElementById("senha").value;
+      const resDiv = document.getElementById("hashResult");
+      resDiv.style.display = "none";
 
-            const found = db.find(x => x.usuario.toLowerCase() === u.toLowerCase());
-            if(!found){ msg.textContent = 'Usuário não encontrado.'; return; }
+      if (!u || !s) {
+        resDiv.style.display = "block";
+        resDiv.textContent = "Preencha usuário e senha.";
+        resDiv.className = "error";
+        return;
+      }
 
-            const tentativaHash = await sha256Hex(s);
-            msg.innerHTML = (tentativaHash === found.hash)
-                ? '<span class="success">Login aprovado — hashes coincidem.</span>'
-                : '<span class="error">Senha incorreta — hash não confere.</span>';
+      // Verifica duplicado
+      const snap = await getDocs(query(colUsuarios, where("usuario", "==", u)));
+      if (!snap.empty) {
+        resDiv.style.display = "block";
+        resDiv.textContent = "Nome de usuário já existe.";
+        resDiv.className = "error";
+        return;
+      }
 
-            document.getElementById('loginPass').value = '';
-        });
+      const hash = await sha256Hex(s);
+      await addDoc(colUsuarios, { usuario: u, hash });
+      resDiv.style.display = "block";
+      resDiv.className = "";
+      resDiv.innerHTML = `<strong>Hash gerado (SHA-256):</strong><br><code>${hash}</code>`;
+      document.getElementById("senha").value = "";
+      renderBanco();
+    });
 
-        renderBanco();
-    </script>
+    // Login
+    document.getElementById("btnLogin").addEventListener("click", async () => {
+      const u = document.getElementById("loginUser").value.trim();
+      const s = document.getElementById("loginPass").value;
+      const msg = document.getElementById("loginMsg");
+      msg.textContent = "";
 
+      if (!u || !s) { msg.textContent = "Preencha usuário e senha."; return; }
+
+      const snap = await getDocs(query(colUsuarios, where("usuario", "==", u)));
+      if (snap.empty) { msg.textContent = "Usuário não encontrado."; return; }
+
+      const docData = snap.docs[0].data();
+      const tentativaHash = await sha256Hex(s);
+      msg.innerHTML = (tentativaHash === docData.hash)
+        ? '<span class="success">Login aprovado — hashes coincidem.</span>'
+        : '<span class="error">Senha incorreta — hash não confere.</span>';
+
+      document.getElementById("loginPass").value = "";
+    });
+
+    renderBanco();
+  </script>
 </body>
 </html>
