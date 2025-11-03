@@ -47,13 +47,11 @@
 </head>
 <body>
 
-  <!-- Cabeçalho -->
   <div class="header">
     <img src="TESTE.png" alt="Logo Vida Digital">
     <h1>Vida Digital</h1>
   </div>
 
-  <!-- Containers -->
   <div class="main-content">
     <div class="container">
       <h2>Criar Conta</h2>
@@ -84,13 +82,13 @@
     </div>
   </div>
 
-  <!-- Lógica principal -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
 
-    // Configuração Firebase
+    // --- 🚨 ATENÇÃO: Verifique e substitua sua Configuração Firebase real abaixo! 🚨 ---
+    // Esta é a configuração do seu projeto 'kubo-aafcc'
     const firebaseConfig = {
       apiKey: "AIzaSyCqtIahDDW_Dw5NYZ9AK524VbkxNg7vvhI",
       authDomain: "kubo-aafcc.firebaseapp.com",
@@ -105,7 +103,11 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
-    const colUsuarios = collection(db, "usuarios");
+    
+    // --- 🔑 AJUSTE CRÍTICO: Nome da Coleção. Foi alterado de "usuarios" para "111212121"
+    // com base na sua imagem do Firestore.
+    const NOME_COLECAO = "111212121";
+    const colUsuarios = collection(db, NOME_COLECAO); 
 
     // Funções utilitárias
     async function sha256Hex(str) {
@@ -124,10 +126,11 @@
         cont.innerHTML = "<em>Nenhum usuário salvo ainda.</em>";
         return;
       }
-      let html = "<table><thead><tr><th>Usuário</th><th>Hash</th></tr></thead><tbody>";
+      let html = "<table><thead><tr><th>Usuário</th><th>Hash (Campo 'senha')</th></tr></thead><tbody>";
       snap.forEach(doc => {
-        const { usuario, hash } = doc.data();
-        html += `<tr><td>${escapeHtml(usuario)}</td><td><code>${hash}</code></td></tr>`;
+        // --- 🔑 AJUSTE CRÍTICO: Os campos no documento são 'usuario' e 'senha' (que armazena o hash)
+        const { usuario, senha } = doc.data(); 
+        html += `<tr><td>${escapeHtml(usuario)}</td><td><code>${senha}</code></td></tr>`;
       });
       cont.innerHTML = html + "</tbody></table>";
     }
@@ -146,6 +149,7 @@
         return;
       }
 
+      // 1. Verificar se o usuário já existe
       const snap = await getDocs(query(colUsuarios, where("usuario", "==", u)));
       if (!snap.empty) {
         resDiv.style.display = "block";
@@ -154,8 +158,13 @@
         return;
       }
 
+      // 2. Gerar o hash da senha
       const hash = await sha256Hex(s);
-      await addDoc(colUsuarios, { usuario: u, hash });
+      
+      // 3. Salvar no Firestore
+      // --- 🔑 AJUSTE CRÍTICO: Salva o hash no campo 'senha', conforme a estrutura da sua tela.
+      await addDoc(colUsuarios, { usuario: u, senha: hash }); 
+      
       resDiv.style.display = "block";
       resDiv.className = "";
       resDiv.innerHTML = `<strong>Hash gerado (SHA-256):</strong><br><code>${hash}</code>`;
@@ -172,12 +181,18 @@
 
       if (!u || !s) { msg.textContent = "Preencha usuário e senha."; return; }
 
+      // 1. Buscar usuário
       const snap = await getDocs(query(colUsuarios, where("usuario", "==", u)));
       if (snap.empty) { msg.textContent = "Usuário não encontrado."; return; }
 
       const docData = snap.docs[0].data();
+      
+      // 2. Gerar hash da senha fornecida
       const tentativaHash = await sha256Hex(s);
-      msg.innerHTML = (tentativaHash === docData.hash)
+      
+      // 3. Comparar o hash gerado com o hash armazenado no campo 'senha'
+      // --- 🔑 AJUSTE CRÍTICO: Compara com docData.senha
+      msg.innerHTML = (tentativaHash === docData.senha) 
         ? '<span class="success">Login aprovado — hashes coincidem.</span>'
         : '<span class="error">Senha incorreta — hash não confere.</span>';
 
