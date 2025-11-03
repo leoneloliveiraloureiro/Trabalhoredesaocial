@@ -10,23 +10,25 @@
             --card: #ffffff;
             --muted: #666;
         }
+
         body {
             font-family: Inter, Arial, sans-serif;
             background: var(--bg);
+            color: #0b84ff;
+            margin: 0;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
-            color: #0b84ff;
+            gap: 30px;
         }
 
-        /* Cabeçalho com logo e título */
+        /* Cabeçalho */
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 14px;
-            margin-bottom: 30px;
         }
 
         .header img {
@@ -41,14 +43,23 @@
             color: #0b84ff;
         }
 
-        /* Containers principais */
+        /* Área dos containers lado a lado */
+        .main-content {
+            display: flex;
+            flex-wrap: wrap; /* permite quebrar linha se a tela for pequena */
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 1500px;
+        }
+
         .container {
             background: var(--card);
             padding: 18px;
             border-radius: 12px;
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
             width: 460px;
-            margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
         h2, h3 { margin: 6px 0; }
@@ -108,40 +119,55 @@
         .muted { color: #888; font-size: 12px; }
         .success { color: green; }
         .error { color: red; }
+
+        /* Responsividade */
+        @media (max-width: 1000px) {
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Cabeçalho com logo e título -->
+    <!-- Cabeçalho -->
     <div class="header">
         <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Logoexample.png" alt="Logo Vida Digital">
         <h1>Vida Digital</h1>
     </div>
 
-    <div class="container">
-        <h2>Criar Conta</h2>
-        <label for="usuario">Nome de usuário</label>
-        <input type="text" id="usuario" placeholder="Ex: joao">
-        <label for="senha">Senha</label>
-        <input type="password" id="senha" placeholder="Sua senha (não será armazenada)">
-        <button id="btnCriar">Gerar Hash e Salvar</button>
-        <div id="hashResult" aria-live="polite"></div>
-        <p class="small">Ao criar, apenas o <strong>hash</strong> da senha é salvo no banco simulado — a senha em texto puro nunca é armazenada.</p>
-    </div>
+    <!-- Containers lado a lado -->
+    <div class="main-content">
 
-    <div class="container">
-        <h2>Login</h2>
-        <label for="loginUser">Usuário</label>
-        <input type="text" id="loginUser" placeholder="Digite seu usuário">
-        <label for="loginPass">Senha</label>
-        <input type="password" id="loginPass" placeholder="Digite a senha para verificar">
-        <button id="btnLogin">Tentar Login</button>
-        <div id="loginMsg" class="muted"></div>
-    </div>
+        <div class="container">
+            <h2>Criar Conta</h2>
+            <label for="usuario">Nome de usuário</label>
+            <input type="text" id="usuario" placeholder="Ex: joao">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" placeholder="Sua senha (não será armazenada)">
+            <button id="btnCriar">Gerar Hash e Salvar</button>
+            <div id="hashResult" aria-live="polite"></div>
+            <p class="small">
+                Ao criar, apenas o <strong>hash</strong> da senha é salvo no banco simulado — a senha em texto puro nunca é armazenada.
+            </p>
+        </div>
 
-    <div class="container">
-        <h3>Banco de Dados (Simulado)</h3>
-        <div id="bancoDados"><em>Nenhum usuário salvo ainda.</em></div>
+        <div class="container">
+            <h2>Login</h2>
+            <label for="loginUser">Usuário</label>
+            <input type="text" id="loginUser" placeholder="Digite seu usuário">
+            <label for="loginPass">Senha</label>
+            <input type="password" id="loginPass" placeholder="Digite a senha para verificar">
+            <button id="btnLogin">Tentar Login</button>
+            <div id="loginMsg" class="muted"></div>
+        </div>
+
+        <div class="container">
+            <h3>Banco de Dados (Simulado)</h3>
+            <div id="bancoDados"><em>Nenhum usuário salvo ainda.</em></div>
+        </div>
+
     </div>
 
     <script>
@@ -223,6 +249,6 @@
 
         renderBanco();
     </script>
+
 </body>
 </html>
-
