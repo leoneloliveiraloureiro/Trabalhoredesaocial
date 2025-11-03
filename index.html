@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simulador de Hashing - Vida Digital</title>
   <style>
     :root { --bg: #f2f2f2; --card: #ffffff; --muted: #666; }
@@ -86,35 +86,31 @@
 
   <!-- Lógica principal -->
   <script type="module">
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCqtIahDDW_Dw5NYZ9AK524VbkxNg7vvhI",
-  authDomain: "kubo-aafcc.firebaseapp.com",
-  projectId: "kubo-aafcc",
-  storageBucket: "kubo-aafcc.firebasestorage.app",
-  messagingSenderId: "968436349335",
-  appId: "1:968436349335:web:078b66979ab4fc43f22cd2",
-  measurementId: "G-0K98ZYCYBG"
-};
+    // Configuração Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqtIahDDW_Dw5NYZ9AK524VbkxNg7vvhI",
+      authDomain: "kubo-aafcc.firebaseapp.com",
+      projectId: "kubo-aafcc",
+      storageBucket: "kubo-aafcc.appspot.com",
+      messagingSenderId: "968436349335",
+      appId: "1:968436349335:web:078b66979ab4fc43f22cd2",
+      measurementId: "G-0K98ZYCYBG"
+    };
 
-// Initialize Firebase
-const analytics = getAnalytics(app);
-
+    // Inicialização
     const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
     const db = getFirestore(app);
     const colUsuarios = collection(db, "usuarios");
 
-    // Utilitários
+    // Funções utilitárias
     async function sha256Hex(str) {
       const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
     }
 
     function escapeHtml(t) {
@@ -150,7 +146,6 @@ const analytics = getAnalytics(app);
         return;
       }
 
-      // Verifica duplicado
       const snap = await getDocs(query(colUsuarios, where("usuario", "==", u)));
       if (!snap.empty) {
         resDiv.style.display = "block";
@@ -193,4 +188,3 @@ const analytics = getAnalytics(app);
   </script>
 </body>
 </html>
-
