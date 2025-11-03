@@ -1,2 +1,0 @@
-# Trabalhoredesaocial
-trabalho
