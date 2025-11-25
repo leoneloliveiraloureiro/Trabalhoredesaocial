@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Ciberpoema</title>
+<style>
+    body {
+        background: #0a0a0a;
+        color: #0ff;
+        font-family: "Courier New", monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px;
+        text-align: center;
+    }
+
+    #poema {
+        font-size: 22px;
+        white-space: pre-line;
+        border-right: 2px solid #0ff;
+        padding-right: 5px;
+        animation: cursor .7s infinite;
+    }
+
+    @keyframes cursor {
+        0% { border-color: transparent; }
+        50% { border-color: #0ff; }
+    }
+</style>
+</head>
+<body>
+
+<div id="poema"></div>
+
+<script>
+    const texto = [
+        "loading memories...",
+        "initializing feelings...",
+        "",
+        "system detected longing.",
+        "trying:",
+        "You.",
+        "",
+        "error: distance too high.",
+        "trying again...",
+        "",
+        "emotional process done."
+    ];
+
+    let index = 0;
+    let speed = 120;
+
+    function digitar() {
+        if (index < texto.length) {
+            document.getElementById("poema").innerText += texto[index] + "\n";
+            index++;
+            setTimeout(digitar, speed);
+        }
+    }
+
+    digitar();
+</script>
+
+</body>
+</html>
